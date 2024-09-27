@@ -13,7 +13,7 @@ $(SERVER): $(SERVER_SRC)
 	$(CC) $(CFLAGS) -o $(SERVER) $(SERVER_SRC)
 
 $(CLIENT) : $(CLIEN_SRC)
-	$(CC) $(CFLAGS) -o $(CLIENT) $(CLIEN_SRC)
+	$(CC) $(CFLAGS) -o $(CLIENT) $(CLIENT_SRC)
 
 clean:
 	rm -f $(SERVER) $(CLIENT)
