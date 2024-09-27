@@ -12,14 +12,27 @@
 
 #include "minitalk.h"
 
+size_t	ft_strlen(const char *s)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i])
+	{
+		i++;
+	}
+	return (i);
+}
+
 void	send_message(const char *message, pid_t server_pid)
 {
 	int	len;
 	int	i;
 
 	i = 8;
-	len = 0;
-	while(message[len] != '\0')
+	len = ft_strlen(message);
+	message = malloc (sizeof(char *) * (len + 1));
+	while(len > 0)
 	{
 		while (i--)
 		{
@@ -36,14 +49,13 @@ void	send_message(const char *message, pid_t server_pid)
 int	main (int argc, char **argv)
 {
 	pid_t	server_pid;
-	const char	*message;
+	const char	*info_client;
 
 	server_pid = atoi(argv[1]);
 	if (argc != 3)
 		return (0);
-	message = argv[2];
-	send_message(message, server_pid);
-	// kill(server_pid, SIGUSR1);
+	info_client = argv[2];
+	send_message(info_client, server_pid);
 }
 
 //Le client enverrait un message au serveur 
