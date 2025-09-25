@@ -1,6 +1,6 @@
 CC = cc
 CFLAGS = -Wall -Werror -Werror
-NAME = libftprintf.a
+NAME = printf.a
 SRCS =	ft_printf.c\
 		ft_fonction.c
 

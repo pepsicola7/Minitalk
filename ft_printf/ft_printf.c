@@ -6,7 +6,7 @@
 /*   By: peli <peli@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 20:25:36 by peli              #+#    #+#             */
-/*   Updated: 2024/05/23 20:52:44 by peli             ###   ########.fr       */
+/*   Updated: 2024/09/30 12:01:30 by peli             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	ft_format(char c, va_list args)
 	else if (c == 'd' || c == 'i')
 		count += ft_putnbr(va_arg(args, int));
 	else if (c == 'u')
-		count += ft_putnbr_u(va_arg(args, unsigned int));
+		count += ft_putnbr_u(va_arg(args, int));
 	else if (c == 'x')
 		count += ft_putnbr_hexa(va_arg(args, unsigned int), "0123456789abcdef");
 	else if (c == 'X')

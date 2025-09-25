@@ -6,58 +6,64 @@
 /*   By: peli <peli@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 15:01:02 by peli              #+#    #+#             */
-/*   Updated: 2024/09/27 18:56:10 by peli             ###   ########.fr       */
+/*   Updated: 2024/09/30 16:48:11 by peli             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
-#include <signal.h>
-#include <sys/types.h>
 
-int	cover_binary(int current_bits)
+char	*g_message = NULL;
+
+int	end_phrase(siginfo_t *pid, char *temp)
 {
-	int message;
+	int	init_bits;
 
-	message = 1;
-	while (current_bits > 1)
-	{
-		message = 2 * message;
-		current_bits--;
-	}
-	return (message);
+	ft_printf("%s\n", g_message);
+	kill(pid->si_pid, SIGUSR2);
+	free(g_message);
+	free(temp);
+	g_message = NULL;
+	init_bits = 7;
+	return (init_bits);
 }
 
-void	handler_message(int signal) // fonction pour couvertir de binaire a otctet
+void	handler_message(int signal, siginfo_t *pid, void *ZERO)
 {
-	int current_bits;
-	int	i;
-	
-	current_bits = 8;
-	i = 0;
-	while (message[i] != '\0')
+	char		*temp;
+	static int	current_bits = 7;
+	static char	c = 0;
+
+	(void)ZERO;
+	if (signal == SIGUSR1)
+		c |= 1 << current_bits;
+	current_bits--;
+	if (current_bits < 0)
 	{
-		message[i] = 0;
-		while (current_bits > 1)
+		temp = malloc(2);
+		if (!temp)
+			return ;
+		temp[0] = c;
+		temp[1] = '\0';
+		if (c == '\0')
 		{
-			if (signal == SIGUSR1)
-				message[i] += cover_binary(current_bits);
-			current_bits--;
+			current_bits = end_phrase(pid, temp);
+			return ;
 		}
-		if (current_bits == 1)
-			message[i] += 1;
-		i++;
+		current_bits = 7;
+		g_message = ft_strjoin(g_message, temp);
+		c = 0;
+		free (temp);
 	}
-	message[i] = '\0';
-	ft_printf("%s", message);
-	free (message);
-	ft_printf("Signal reçu : Le serveur confirme la réception du message.\n");
 }
 
-int	main (void)
+int	main(void)
 {
-	struct sigaction set;
+	struct sigaction	set;
+
+	g_message = NULL;
+	set.sa_sigaction = handler_message;
+	set.sa_flags = SA_SIGINFO;
 	ft_printf ("%i\n", getpid());
-	set.sa_handler = handler_message;
 	sigemptyset(&set.sa_mask);
 	while (1)
 	{

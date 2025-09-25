@@ -6,7 +6,7 @@
 /*   By: peli <peli@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 20:48:11 by peli              #+#    #+#             */
-/*   Updated: 2024/05/23 20:53:18 by peli             ###   ########.fr       */
+/*   Updated: 2024/09/30 11:54:39 by peli             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	ft_putnbr(int i)
 	return (count);
 }
 
-int	ft_putnbr_u(unsigned int i)
+int	ft_putnbr_u(int i)
 {
 	unsigned int	count;
 
